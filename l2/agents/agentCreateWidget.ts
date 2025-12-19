@@ -142,13 +142,13 @@ export async function getPrompts(prompt: string | undefined, rags: string[] | nu
 
     const comp = await getDefinitions(102026);
     const data = {
-        mode: preferModelType("translate"),
+        mode: preferModelType("code"),
         widgetPrefix: widgetPrefix,
         componentDef: JSON.stringify(comp),
         humanPrompt: prompt
     }
 
-    const prompts = await getPromptByHtml({ project: 102026, shortName: agentName, folder: '', data });
+    const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data });
 
     return prompts;
 }
@@ -165,7 +165,7 @@ async function getDefinitions(project: number): Promise<any> {
         if (!f ||
             f.project !== project ||
             f.extension !== '.ts' ||
-            !f.folder.startsWith('widget/') ||
+            !f.folder.startsWith('molecules/') ||
             f.shortName !== 'index'
         ) return;
 
