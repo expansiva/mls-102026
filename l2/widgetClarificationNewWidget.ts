@@ -101,7 +101,7 @@ export class WcClarificationPlannerNewWidget100554 extends StateLitElement {
 
         if (!item.folder) {
             const base = this.getBase();
-            item.folder = `widget/${base}`;
+            item.folder = `molecules/${base}`;
             item.project = mls.actualProject || 0;
             this.folder = item.folder;
         }
