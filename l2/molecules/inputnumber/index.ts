@@ -1,7 +1,7 @@
 /// <mls shortName="index" project="102026" enhancement="_blank" folder="molecules/inputnumber" />
 
 export const widgetDefinition = {
-    name: "numberInput",
+    name: "inputnumber",
     description: "Campo para inserir um número",
     properties: [
         { name: "value", type: "number" }
