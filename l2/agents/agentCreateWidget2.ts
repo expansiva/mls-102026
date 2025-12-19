@@ -188,7 +188,7 @@ export async function getPrompts(obj: any, prompt: string | undefined): Promise<
         humanPrompt: prompt
     }
 
-    const prompts = await getPromptByHtml({ project: 102026, shortName: agentName, folder: '', data })
+    const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data })
     return prompts;
 
 }
