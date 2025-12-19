@@ -129,7 +129,7 @@ const _replayForSupport = async (payload: mls.msg.AIPayload[]): Promise<void> =>
 }
 
 async function updateFile(context: mls.msg.ExecutionContext) {
-    debugger;
+
     if (!context || !context.task) throw new Error('Not found context to create files');
 
     const step = getNextPendentStep(context.task) as mls.msg.AIFlexibleResultStep;
@@ -253,7 +253,7 @@ export async function getPrompts(shortName: string, project: number, folder:stri
         ts: await getDefinitionsBaseTSInstruction(shortName, project, folder)
     }
 
-    const prompts = await getPromptByHtml({ project: 102026, shortName: agentName, folder: '', data });
+    const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data });
 
     prompts.push({ type: 'human', content: 'Crie um html conforme as regras' })
     return prompts;
