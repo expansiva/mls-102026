@@ -1,11 +1,7 @@
-/// <mls shortName="agentCreateWidget" project="102026" enhancement="_blank" folder="agents" />
+/// <mls fileReference="_102026_/l2/agents/agentCreateWidget.ts" enhancement="_102027_/l2/enhancementLit" />
 
 import { IAgent, svg_agent } from '/_100554_/l2/aiAgentBase.js';
 import {
-    getListFilesStart,
-    systemReturnJsonFormat,
-    preferModelType,
-    systemComponentsInstruction,
     getPromptByHtml
 } from '/_100554_/l2/aiPrompts.js';
 
@@ -142,7 +138,7 @@ export async function getPrompts(prompt: string | undefined, rags: string[] | nu
 
     const comp = await getDefinitions(102026);
     const data = {
-        mode: preferModelType("code"),
+        mode: 'code',//preferModelType("code"),
         widgetPrefix: widgetPrefix,
         componentDef: JSON.stringify(comp),
         humanPrompt: prompt

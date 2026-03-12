@@ -1,4 +1,4 @@
-/// <mls shortName="widgetClarificationNewWidget" project="102026" enhancement="_100554_enhancementLit" />
+/// <mls fileReference="_102026_/l2/widgetClarificationNewWidget.ts" enhancement="_102027_/l2/enhancementLit" />
 
 import { html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
