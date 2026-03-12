@@ -1,4 +1,4 @@
-/// <mls shortName="widgetPlaygroundState" project="102026" enhancement="_blank" folder="" />
+/// <mls fileReference="_102026_/l2/widgetPlaygroundState.test.ts" enhancement="_102027_/l2/enhancementLit" />
 
  import { ICANTest, ICANIntegration, ICANSchema  } from '/_100554_/l2/tsTestAST.js';
  export const integrations: ICANIntegration[] = [];
