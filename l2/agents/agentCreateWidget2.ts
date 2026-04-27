@@ -1,30 +1,19 @@
 /// <mls fileReference="_102026_/l2/agents/agentCreateWidget2.ts" enhancement="_102027_/l2/enhancementLit" />
 
-import { IAgent, svg_agent } from '/_100554_/l2/aiAgentBase.js';
-import {
-    systemTokensLessInstruction,
-    getPromptByHtml
-} from '/_100554_/l2/aiPrompts.js';
+import { IAgent, svg_agent } from '/_102027_/l2/aiAgentBase.js';
+
 
 import {
     getNextPendingStepByAgentName,
     getNextInProgressStepByAgentName,
-    updateStepStatus,
     getNextPendentStep,
-    updateTaskTitle,
-} from "/_100554_/l2/aiAgentHelper.js";
+} from "/_102027_/l2/aiAgentHelper.js";
 
-import {
-    startNewAiTask,
-    startNewInteractionInAiTask,
-        addNewStep
-} from "/_100554_/l2/aiAgentOrchestration.js";
 
-import { formatHtml } from '/_100554_/l2/collabDOMSync.js';
-import { createNewFile } from "/_100554_/l2/pluginNewFileBase.js";
-//import { initCompileMonaco } from "/_100554_/l2/collabInit.js";
 
-const enhancement = '_100554_enhancementLit';
+//import { initCompileMonaco } from "/_102027_/l2/collabInit.js";
+
+const enhancement = '_102027_enhancementLit';
 const agentName = "agentCreateWidget2";
 const widgetPrefix = "widget";
 
@@ -68,7 +57,7 @@ const _beforePrompt = async (context: mls.msg.ExecutionContext): Promise<void> =
         const data = mls.common.safeParseArgs(pp);
     
         const inputs = await getPrompts(data, data.prompt);
-        await startNewAiTask(agentName, taskTitle, context.message.content, context.message.threadId, context.message.senderId, inputs, context, _afterPrompt);
+        //await startNewAiTask(agentName, taskTitle, context.message.content, context.message.threadId, context.message.senderId, inputs, context, _afterPrompt);
     } else {
 
         const step: mls.msg.AIAgentStep | null = getNextPendingStepByAgentName(context.task, agentName);
@@ -76,7 +65,7 @@ const _beforePrompt = async (context: mls.msg.ExecutionContext): Promise<void> =
             throw new Error(`[${agentName}] beforePrompt: No pending step found for this agent.`);
         }
 
-        context = await updateStepStatus(context, step.stepId, "in_progress");
+        //context = await updateStepStatus(context, step.stepId, "in_progress");
 
         if (!step.prompt) throw new Error(`[${agentName}] beforePrompt: No prompt found in step for this agent.`);
         const data = mls.common.safeParseArgs(step.prompt);
@@ -84,7 +73,7 @@ const _beforePrompt = async (context: mls.msg.ExecutionContext): Promise<void> =
 
         const inputs = await getPrompts(data.json, data.prompt);
 
-        await startNewInteractionInAiTask(agentName, taskTitle, inputs, context, _afterPrompt, step.stepId);
+        //await startNewInteractionInAiTask(agentName, taskTitle, inputs, context, _afterPrompt, step.stepId);
     }
 }
 
@@ -93,7 +82,7 @@ const _afterPrompt = async (context: mls.msg.ExecutionContext): Promise<void> =>
     const step: mls.msg.AIAgentStep | null = getNextInProgressStepByAgentName(context.task, agentName);
     if (!step) throw new Error(`[${agentName}] afterPrompt: No pending interaction found.`);
 
-    context = await updateStepStatus(context, step.stepId, "completed");
+    //context = await updateStepStatus(context, step.stepId, "completed");
     await addFile(context);
 
 
@@ -146,7 +135,7 @@ async function addFile(context: mls.msg.ExecutionContext) {
         type: 'agent'
     }
 
-    await addNewStep(context, step.stepId, [newStep]);
+    //await addNewStep(context, step.stepId, [newStep]);
 
     let aux = '';
     const m = mls.editor.getModels(prj, content.pageName, '');
@@ -156,7 +145,7 @@ async function addFile(context: mls.msg.ExecutionContext) {
 
     //context.task = await updateTaskTitle(context.task, "Widget created " + content.pageName + aux);
 
-    context = await updateStepStatus(context, step.stepId, "completed");
+    //context = await updateStepStatus(context, step.stepId, "completed");
 
 }
 
@@ -167,19 +156,19 @@ async function createNewFiles(content: { shortName: string, folder:string, html:
 
     const pageName = content.shortName;
     const folder = content.folder || '';
-    const fileHTML = formatHtml(content.html);
+    const fileHTML = '';//formatHtml(content.html);
     const fileTS = content.ts;
     const fileLess = content.less;
 
-    await createNewFile(
+    /*await createNewFile(
         { project: content.project, position: 'right', shortName: pageName, enhancement, folder, sourceTS: fileTS, sourceHTML: fileHTML, sourceLess: fileLess, openPreview: false }
-    );
+    );*/
 }
 
 export async function getPrompts(obj: any, prompt: string | undefined): Promise<mls.msg.IAMessageInputType[]> {
     if (!prompt || prompt.length < 3) throw new Error("Invalid Prompt");
 
-    const tokens = await systemTokensLessInstruction();
+    const tokens:any = {};//await systemTokensLessInstruction();
     const data = {
         mode: 'code',//preferModelType("code"),
         requirements: JSON.stringify(obj, null, 2),
@@ -187,8 +176,8 @@ export async function getPrompts(obj: any, prompt: string | undefined): Promise<
         humanPrompt: prompt
     }
 
-    const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data })
-    return prompts;
+    //const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data })
+    return [];
 
 }
 

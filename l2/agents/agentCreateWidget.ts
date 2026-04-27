@@ -1,28 +1,19 @@
 /// <mls fileReference="_102026_/l2/agents/agentCreateWidget.ts" enhancement="_102027_/l2/enhancementLit" />
 
-import { IAgent, svg_agent } from '/_100554_/l2/aiAgentBase.js';
-import {
-    getPromptByHtml
-} from '/_100554_/l2/aiPrompts.js';
+import { IAgent, svg_agent } from '/_102027_/l2/aiAgentBase.js';
+
 
 import {
     getNextPendingStepByAgentName,
     getNextInProgressStepByAgentName,
     getStepById,
-    updateStepStatus,
     notifyTaskChange,
     calculateStepsStatistics,
     getInteractionStepId,
-} from "/_100554_/l2/aiAgentHelper.js";
+} from "/_102027_/l2/aiAgentHelper.js";
 
-import {
-    startNewAiTask,
-    executeNextStep,
-    startNewInteractionInAiTask,
-    addNewStep
-} from "/_100554_/l2/aiAgentOrchestration.js";
 
-import {collabImport} from '/_100554_/l2/collabImport.js'
+import {collabImport} from '/_102027_/l2/collabImport.js'
 
 import '/_102026_/l2/widgetClarificationNewWidget.js';
 
@@ -59,16 +50,16 @@ const _beforePrompt = async (context: mls.msg.ExecutionContext): Promise<void> =
     if (!context.task) {
         // using temporary context, create a new task
         const inputs = await getPrompts(context.message.content, null);
-        await startNewAiTask(agentName, taskTitle, context.message.content, context.message.threadId, context.message.senderId, inputs, context, _afterPrompt);
+        //await startNewAiTask(agentName, taskTitle, context.message.content, context.message.threadId, context.message.senderId, inputs, context, _afterPrompt);
     } else {
 
         const step: mls.msg.AIAgentStep | null = getNextPendingStepByAgentName(context.task, agentName);
         if (!step) {
             throw new Error(`[${agentName}] beforePrompt: No pending step found for this agent.`);
         }
-        context = await updateStepStatus(context, step.stepId, "in_progress");
+        //context = await updateStepStatus(context, step.stepId, "in_progress");
         const inputs = await getPrompts(step.prompt, step.rags);
-        await startNewInteractionInAiTask(agentName, taskTitle, inputs, context, _afterPrompt, step.stepId);
+        //await startNewInteractionInAiTask(agentName, taskTitle, inputs, context, _afterPrompt, step.stepId);
     }
 }
 
@@ -79,8 +70,8 @@ const _afterPrompt = async (context: mls.msg.ExecutionContext): Promise<void> =>
     if (!step) throw new Error(`[${agentName}] afterPrompt: No pending interaction found.`);
     const { flexible } = calculateStepsStatistics([step], true);
     if (flexible > 0) throw new Error(`[${agentName}] afterPrompt: error, Flexible step found.`);
-    context = await updateStepStatus(context, step.stepId, "completed");
-    await executeNextStep(context);
+    //context = await updateStepStatus(context, step.stepId, "completed");
+    //await executeNextStep(context);
 
 }
 
@@ -128,7 +119,7 @@ const _afterClarification = async (context: mls.msg.ExecutionContext, stepId: nu
         type: 'agent'
     }
 
-    await addNewStep(context, step.stepId, [newStep]);
+    //await addNewStep(context, step.stepId, [newStep]);
 
 }
 
@@ -144,9 +135,9 @@ export async function getPrompts(prompt: string | undefined, rags: string[] | nu
         humanPrompt: prompt
     }
 
-    const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data });
+    //const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data });
 
-    return prompts;
+    return [];
 }
 
 async function getDefinitions(project: number): Promise<any> {
