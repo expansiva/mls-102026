@@ -1,25 +1,15 @@
 /// <mls fileReference="_102026_/l2/agents/agentCreateWidget3.ts" enhancement="_102027_/l2/enhancementLit" />
 
 
-import { IAgent, svg_agent } from '/_100554_/l2/aiAgentBase.js';
-import {  getPromptByHtml } from '/_100554_/l2/aiPrompts.js';
-import { initState } from '/_100554_/l2/collabState.js';
-import { formatHtml } from '/_100554_/l2/collabDOMSync.js';
+import { IAgent, svg_agent } from '/_102027_/l2/aiAgentBase.js';
+import { initState } from '/_102027_/l2/collabState.js';
 
 import {
     getNextPendingStepByAgentName,
     getNextInProgressStepByAgentName,
-    updateStepStatus,
-    getNextPendentStep,
-    updateTaskTitle
-} from "/_100554_/l2/aiAgentHelper.js";
+    getNextPendentStep
+} from "/_102027_/l2/aiAgentHelper.js";
 
-import {
-    executeNextStep,
-    startNewInteractionInAiTask,
-    startNewAiTask,
-    addNewStep
-} from "/_100554_/l2/aiAgentOrchestration.js";
 
 const agentName = "agentCreateWidget3";
 
@@ -58,7 +48,7 @@ const _beforePrompt = async (context: mls.msg.ExecutionContext): Promise<void> =
         if (!('shortName' in data) || !('project' in data)) throw new Error(`[${agentName}] beforePrompt: Invalid prompt structure missing json and prompt`);
 
         const inputs: any = await getPrompts(data.shortName, data.project, data.folder);
-        await startNewAiTask(agentName, taskTitle, context.message.content, context.message.threadId, context.message.senderId, inputs, context, _afterPrompt);
+        //await startNewAiTask(agentName, taskTitle, context.message.content, context.message.threadId, context.message.senderId, inputs, context, _afterPrompt);
 
     } else {
 
@@ -68,7 +58,7 @@ const _beforePrompt = async (context: mls.msg.ExecutionContext): Promise<void> =
             throw new Error(`[${agentName}] beforePrompt: No pending step found for this agent.`);
         }
 
-        context = await updateStepStatus(context, step.stepId, "in_progress");
+        //context = await updateStepStatus(context, step.stepId, "in_progress");
 
         if (!step.prompt) throw new Error(`[${agentName}] beforePrompt: No prompt found in step for this agent.`);
 
@@ -77,7 +67,7 @@ const _beforePrompt = async (context: mls.msg.ExecutionContext): Promise<void> =
         if (!('shortName' in data) || !('project' in data)) throw new Error(`[${agentName}] beforePrompt: Invalid prompt structure missing json and prompt`);
 
         const inputs = await getPrompts(data.shortName, data.project, data.folder);
-        await startNewInteractionInAiTask(agentName, taskTitle, inputs, context, _afterPrompt, step.stepId);
+        //await startNewInteractionInAiTask(agentName, taskTitle, inputs, context, _afterPrompt, step.stepId);
     }
 }
 
@@ -86,9 +76,9 @@ const _afterPrompt = async (context: mls.msg.ExecutionContext): Promise<void> =>
     const step: mls.msg.AIAgentStep | null = getNextInProgressStepByAgentName(context.task, agentName);
     if (!step) throw new Error(`[${agentName}] afterPrompt: No pending interaction found.`);
 
-    context = await updateStepStatus(context, step.stepId, "completed");
+    //context = await updateStepStatus(context, step.stepId, "completed");
     await updateFile(context);
-    await executeNextStep(context);
+    //await executeNextStep(context);
 }
 
 const _replayForSupport = async (payload: mls.msg.AIPayload[]): Promise<void> => {
@@ -106,7 +96,7 @@ const _replayForSupport = async (payload: mls.msg.AIPayload[]): Promise<void> =>
     const pageName = step.result.shortName;
     const project = step.result.project;
     const folder = step.result.folder;
-    const fileHTML = formatHtml(step.result.html);
+    const fileHTML = '';//formatHtml(step.result.html);
     const key = mls.stor.getKeyToFiles(step.result.project, 2, step.result.shortName, step.result.folder, '.html');
     const file = mls.stor.files[key];
 
@@ -142,7 +132,7 @@ async function updateFile(context: mls.msg.ExecutionContext) {
     const pageName = step.result.shortName;
     const project = step.result.project;
     const folder = step.result.folder;
-    const fileHTML = formatHtml(step.result.html);
+    const fileHTML = '';//formatHtml(step.result.html);
     const key = mls.stor.getKeyToFiles(step.result.project, 2, step.result.shortName, step.result.folder, '.html');
     const file = mls.stor.files[key];
 
@@ -167,7 +157,7 @@ async function updateFile(context: mls.msg.ExecutionContext) {
 
     }*/
 
-    context.task = await updateTaskTitle(context.task, "Widget created" + aux);
+    //context.task = await updateTaskTitle(context.task, "Widget created" + aux);
     //if (m) await verifyNeedCallFix(m, context, step.stepId);
 
 }
@@ -189,7 +179,7 @@ async function verifyNeedCallFix(models: mls.editor.IModels, context: mls.msg.Ex
     if (!hasErrorLess && !hasErrorTypescript) return;
     if (!models.ts) return;
     const { project, folder, shortName } = models.ts.storFile;
-    const res = await fireAgentFix(context, hasErrorLess, hasErrorTypescript, project, folder, shortName, stepId);
+    const res:any = await fireAgentFix(context, hasErrorLess, hasErrorTypescript, project, folder, shortName, stepId);
     if (res) context = res;
 
 }
@@ -240,7 +230,7 @@ async function fireAgentFix(
         nextStepsFix.push(newStep);
     }
 
-    return await addNewStep(context, stepId, nextStepsFix);
+    //return await addNewStep(context, stepId, nextStepsFix);
 
 }
 
@@ -253,10 +243,10 @@ export async function getPrompts(shortName: string, project: number, folder:stri
         ts: await getDefinitionsBaseTSInstruction(shortName, project, folder)
     }
 
-    const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data });
+    //const prompts = await getPromptByHtml({ project: 102026, shortName: 'agents/'+agentName, folder: '', data });
 
-    prompts.push({ type: 'human', content: 'Crie um html conforme as regras' })
-    return prompts;
+    //prompts.push({ type: 'human', content: 'Crie um html conforme as regras' })
+    return [];
 }
 
 async function getDefinitionsBaseTSInstruction(shortName: string, project: number, folder:string): Promise<string> {

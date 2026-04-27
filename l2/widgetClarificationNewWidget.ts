@@ -2,9 +2,8 @@
 
 import { html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import { StateLitElement } from '/_100554_/l2/stateLitElement.js';
-import { postBackClarification } from "/_100554_/l2/aiAgentOrchestration.js";
-import { convertFileNameToTag, convertTagToFileName } from '/_100554_/l2/utilsLit.js';
+import { StateLitElement } from '/_102027_/l2/stateLitElement.js';
+import { convertFileNameToTag, convertTagToFileName } from '/_102027_/l2/utils.js';
 
 @customElement('widget-clarification-new-widget-102026')
 export class WcClarificationPlannerNewWidget100554 extends StateLitElement {
@@ -297,7 +296,7 @@ export class WcClarificationPlannerNewWidget100554 extends StateLitElement {
             console.info(this.data);
             return;
         }
-        await postBackClarification(action, this.data);
+        //await postBackClarification(action, this.data);
     }
 
     private getBase(): string {
